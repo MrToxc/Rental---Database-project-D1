@@ -24,14 +24,14 @@ def get_db_connection():
 
 def insert(table, obj):
     record = asdict(obj)
-    record.pop(f"id_{table}", None)
+    record.pop(attribute_id_name(table), None)
 
     with get_db_connection() as connection:
-        cursor = connection.cursor()
         attributes = ", ".join(record.keys())
         question_marks = ", ".join(["?"] * len(record.keys()))
-
         sql = f"INSERT INTO {table} ({attributes}) OUTPUT INSERTED.id_{table} VALUES ({question_marks})"
+
+        cursor = connection.cursor()
         cursor.execute(sql, *record.values())
 
         id_record = cursor.fetchone()[0]
@@ -41,11 +41,32 @@ def insert(table, obj):
 def delete(table, id_record):
     with get_db_connection() as connection:
         cursor = connection.cursor()
-        sql = f"DELETE FROM {table} WHERE id_{table} = ?"
+        sql = f"DELETE FROM {table} WHERE {attribute_id_name(table)} = ?"
         cursor.execute(sql, id_record)
         connection.commit()
         return cursor.rowcount > 0
 
 
-def update(TABLE_NAME, obj):
-    return None
+def update(table, obj):
+    record = asdict(obj)
+    # Získáme hodnotu ID pro podmínku WHERE a následně ji odstraníme z dat k updatu
+    if attribute_id_name(table) not in record:
+        raise ValueError(f"Objekt neobsahuje primární klíč {attribute_id_name(table)}")
+
+    id_record = record.pop(attribute_id_name(table))
+    attributes_and_values = ", ".join([f"{key} = ?" for key in record.keys()])
+
+    with get_db_connection() as connection:
+        sql = f"UPDATE {table} SET {attributes_and_values} WHERE {attribute_id_name(table)} = ?"
+
+        values = list(record.values())
+        values.append(id_record)
+
+        cursor = connection.cursor()
+        cursor.execute(sql, *values)
+
+        connection.commit()
+
+
+def attribute_id_name(table) -> str:
+    return f"id_{table}"

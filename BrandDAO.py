@@ -24,3 +24,6 @@ class BrandDAO:
     def delete(id_brand):
         return database.delete(BrandDAO.TABLE_NAME, id_brand)
 
+    @staticmethod
+    def update(brand):
+        return database.update(BrandDAO.TABLE_NAME, brand)
