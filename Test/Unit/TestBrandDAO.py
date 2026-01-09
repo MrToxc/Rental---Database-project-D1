@@ -4,6 +4,7 @@ from Brand import Brand
 
 
 class TestBrandDAO(unittest.TestCase):
+
     def test_insert_update_delete_find(self):
         brand = Brand("BMW", "Standard")
         BrandDAO.insert(brand)
@@ -15,16 +16,12 @@ class TestBrandDAO(unittest.TestCase):
             brand.category = "Luxury"
             BrandDAO.update(brand)
             self.assertTrue(brand in BrandDAO.get_all())
+            self.assertTrue(brand == BrandDAO.get_by_id(brand.id_brand))
         finally:
             BrandDAO.delete(brand.id_brand)
         self.assertTrue(brand not in brands)
         brand.name = "Toyota"
         self.assertFalse(brand in BrandDAO.get_all())
-
-
-
-
-
 
 
 

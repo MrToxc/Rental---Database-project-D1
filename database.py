@@ -22,6 +22,61 @@ def get_db_connection():
 
     return pyodbc.connect(conn_str)
 
+
+def get_by_id(table, id_record):
+    with get_db_connection() as connection:
+        cursor = connection.cursor()
+
+        sql = f"SELECT * FROM {table} WHERE {attribute_id_name(table)} = ?"
+        cursor.execute(sql, id_record)
+
+        row = cursor.fetchone()
+
+        if row is None:
+            return None
+
+        # Získání názvů sloupců a vytvoření slovníku
+        columns = [column[0] for column in cursor.description]
+        return dict(zip(columns, row))
+
+def get_by_id_as_object(table, id_record, obj):
+    data = get_by_id(table, id_record)
+    if data:
+        return obj(**data)
+    return None
+
+
+def get_all(table):
+    with get_db_connection() as connection:
+        cursor = connection.cursor()
+        sql = f"SELECT * FROM {table}"
+        cursor.execute(sql)
+
+        # Získání názvů sloupců z popisu kurzoru
+        columns = [column[0] for column in cursor.description]
+
+        # Sestavení výsledného seznamu slovníků
+        results = []
+        for row in cursor.fetchall():
+            results.append(dict(zip(columns, row)))
+
+        return results
+
+def get_all_as_objects(table, data_class):
+    with get_db_connection() as connection:
+        cursor = connection.cursor()
+        sql = f"SELECT * FROM {table}"
+        cursor.execute(sql)
+
+        columns = [column[0] for column in cursor.description]
+        results = []
+
+        for row in cursor.fetchall():
+            row_dict = dict(zip(columns, row))
+            results.append(data_class(**row_dict))
+
+        return results
+
 def insert(table, obj):
     record = asdict(obj)
     record.pop(attribute_id_name(table), None)

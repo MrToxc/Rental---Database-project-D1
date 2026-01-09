@@ -8,13 +8,11 @@ class BrandDAO:
 
     @staticmethod
     def get_all():
-        brands = []
-        with database.get_db_connection() as connection:
-            cursor = connection.cursor()
-            cursor.execute("SELECT id_brand, name, category FROM brand")
-            for row in cursor.fetchall():
-                brands.append(Brand(row.name, row.category, row.id_brand))
-        return brands
+        return database.get_all_as_objects(BrandDAO.TABLE_NAME, Brand)
+
+    @staticmethod
+    def get_by_id(id_brand):
+        return database.get_by_id_as_object(BrandDAO.TABLE_NAME, id_brand, Brand)
 
     @staticmethod
     def insert(brand):
