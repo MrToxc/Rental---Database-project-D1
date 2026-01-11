@@ -6,5 +6,5 @@ class Car:
     model: str
     price_per_day: float
     is_available: bool
-    id_brand: int = None
+    id_brand: int
     id_car: int = None

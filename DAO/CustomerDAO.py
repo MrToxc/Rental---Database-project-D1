@@ -1,5 +1,5 @@
 import database
-from Customer import Customer
+from Objects.Customer import Customer
 
 class CustomerDAO:
 

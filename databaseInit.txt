@@ -28,7 +28,6 @@ CREATE TABLE customer (
 -- Table 4: Contracts
 CREATE TABLE contract (
     id_contract INT IDENTITY(1,1) PRIMARY KEY,
-    contract_number VARCHAR(20) NOT NULL,
     created_at DATETIME DEFAULT GETDATE(), -- Time
     id_customer INT FOREIGN KEY REFERENCES customer(id_customer),
     total_price FLOAT DEFAULT 0

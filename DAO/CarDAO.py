@@ -1,6 +1,6 @@
 import database
 from BrandDAO import BrandDAO
-from Car import Car
+from Objects.Car import Car
 
 class CarDAO:
 

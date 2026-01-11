@@ -1,6 +1,6 @@
 import unittest
-from BrandDAO import BrandDAO
-from Brand import Brand
+from DAO.BrandDAO import BrandDAO
+from Objects.Brand import Brand
 
 
 class TestBrandDAO(unittest.TestCase):

@@ -1,5 +1,5 @@
 import database
-from Brand import Brand
+from Objects.Brand import Brand
 
 class BrandDAO:
 

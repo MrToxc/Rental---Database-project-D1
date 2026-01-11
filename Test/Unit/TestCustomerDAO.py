@@ -1,6 +1,6 @@
 import unittest
-from CustomerDAO import CustomerDAO
-from Customer import Customer
+from DAO.CustomerDAO import CustomerDAO
+from Objects.Customer import Customer
 
 
 class TestCustomerDAO(unittest.TestCase):
