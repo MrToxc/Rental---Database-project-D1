@@ -1,4 +1,4 @@
-from Database.Mapper import get_all_as_objects, insert, get_by_id_as_object, delete, update
+from Database.Mapper import get_all, insert, get_by_id, delete, update
 from Objects.Customer import Customer
 
 
@@ -6,11 +6,11 @@ class CustomerDAO:
 
     @staticmethod
     def get_all():
-        return get_all_as_objects(Customer)
+        return get_all(Customer)
 
     @staticmethod
     def get_by_id(id_customer):
-        return get_by_id_as_object(data_class=Customer, id_record=id_customer)
+        return get_by_id(data_class=Customer, id_record=id_customer)
 
     @staticmethod
     def insert(customer):

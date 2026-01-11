@@ -1,9 +1,7 @@
 from dataclasses import asdict
-
 from Database.Database import get_db_connection
 
-
-def get_by_id(data_class, id_record):
+def get_by_id_raw(data_class, id_record):
     table = get_table_from_data_class(data_class)
     id_attribute_name = get_id_attribute_name_from_data_class(data_class)
 
@@ -23,30 +21,13 @@ def get_by_id(data_class, id_record):
         return dict(zip(columns, row))
 
 
-def get_by_id_as_object(data_class, id_record):
-    data = get_by_id(data_class, id_record)
+def get_by_id(data_class, id_record):
+    data = get_by_id_raw(data_class, id_record)
     if data:
         return data_class(**data)
     return None
 
 def get_all(data_class):
-    table = get_table_from_data_class(data_class)
-    with get_db_connection() as connection:
-        cursor = connection.cursor()
-        sql = f"SELECT * FROM {table}"
-        cursor.execute(sql)
-
-        # Získání názvů sloupců z popisu kurzoru
-        columns = [column[0] for column in cursor.description]
-
-        # Sestavení výsledného seznamu slovníků
-        results = []
-        for row in cursor.fetchall():
-            results.append(dict(zip(columns, row)))
-
-        return results
-
-def get_all_as_objects(data_class):
     table = get_table_from_data_class(data_class)
     with get_db_connection() as connection:
         cursor = connection.cursor()

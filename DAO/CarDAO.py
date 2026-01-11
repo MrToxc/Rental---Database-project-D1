@@ -1,5 +1,5 @@
 from DAO.BrandDAO import BrandDAO
-from Database.Mapper import get_all_as_objects, insert, get_by_id_as_object, delete, update
+from Database.Mapper import get_all, insert, get_by_id, delete, update
 from Objects.Car import Car
 
 
@@ -7,11 +7,11 @@ class CarDAO:
 
     @staticmethod
     def get_all():
-        return get_all_as_objects(Car)
+        return get_all(Car)
 
     @staticmethod
     def get_by_id(id_car):
-        return get_by_id_as_object(data_class=Car, id_record=id_car)
+        return get_by_id(data_class=Car, id_record=id_car)
 
     @staticmethod
     def insert(car):

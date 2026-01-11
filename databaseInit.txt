@@ -28,17 +28,16 @@ CREATE TABLE customer (
 -- Table 4: Contracts
 CREATE TABLE contract (
     id_contract INT IDENTITY(1,1) PRIMARY KEY,
-    created_at DATETIME DEFAULT GETDATE(), -- Time
     id_customer INT FOREIGN KEY REFERENCES customer(id_customer),
     total_price FLOAT DEFAULT 0
+    date_from DATETIME NOT NULL,
+    date_to DATETIME NOT NULL,
 );
 
 -- Table 5: Junction table for M:N relationship (Contract <-> Car)
 CREATE TABLE contract_car (
     id_contract INT FOREIGN KEY REFERENCES contract(id_contract) ON DELETE CASCADE,
     id_car INT FOREIGN KEY REFERENCES car(id_car),
-    date_from DATE NOT NULL,
-    date_to DATE NOT NULL,
     CONSTRAINT PK_contract_car PRIMARY KEY (id_contract, id_car)
 );
 GO
