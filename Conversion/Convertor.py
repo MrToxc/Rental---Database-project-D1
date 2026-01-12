@@ -40,7 +40,7 @@ def convert_csv_to_data_objects(input_file_path: str, data_class: Type[T]) -> Li
 
     return data_objects
 
-#NEXTVERSION napsat metody obecne
+# NEXTVERSION napsat metody obecne a pro více CSV souboru
 def store_old_id(brands):
     for brand in brands:
         brand.old_id = brand.id_brand
