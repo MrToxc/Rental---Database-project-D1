@@ -1,7 +1,7 @@
 from dataclasses import asdict
-from Database.Database import get_db_connection
-from Database.Mapper import get_table_from_data_object, get_table_from_data_class, \
-    get_id_attribute_name_from_data_object
+from Database.DB import get_db_connection
+from Database.Mapper import get_table_from_data_class, get_id_attribute_name_from_data_object, \
+    get_table_from_data_object
 
 
 def get_filtered(data_class, data_object):

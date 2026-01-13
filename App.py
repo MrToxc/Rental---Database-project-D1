@@ -7,6 +7,8 @@ from dataclasses import asdict, is_dataclass
 from datetime import datetime
 from typing import Callable, Any, Optional, List
 
+import Database.DB as DB
+
 from DAO.BrandDAO import BrandDAO
 from DAO.CarDAO import CarDAO
 from DAO.CustomerDAO import CustomerDAO
@@ -203,6 +205,21 @@ def rent_a_car() -> None:
     - insert into contract_car
     - update car.is_available = 0
     """
+    DB.global_connection = DB.ConnectionDecorator()
+    try:
+        rent_a_car_inner()
+    except Exception as e:
+        DB.global_connection.really_rollback()
+        raise RuntimeError(f"Chyba transakce': {str(e)}") from e
+    else:
+        DB.global_connection.really_commit()
+    finally:
+        DB.global_connection.really_close()
+        DB.global_connection = None
+
+
+
+def rent_a_car_inner() -> None:
     id_contract = prompt_int("id_contract")
     id_car = prompt_int("id_car")
 

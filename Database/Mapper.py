@@ -1,5 +1,6 @@
 from dataclasses import asdict
-from Database.Database import get_db_connection
+from Database.DB import get_db_connection
+
 
 def get_by_id_raw(data_class, id_record):
     table = get_table_from_data_class(data_class)
