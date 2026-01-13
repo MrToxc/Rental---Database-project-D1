@@ -1,9 +1,15 @@
 import csv
+from pathlib import Path
 from typing import Type, List, TypeVar
 
 # Type hint for the data objects
 T = TypeVar("T")
 
+
+def convert_csv_to_data_objects_if_exist(input_file_path: str, data_class: Type[T]) -> List[T]:
+    if not Path(input_file_path).resolve().exists():
+        return []
+    return convert_csv_to_data_objects(input_file_path, data_class)
 
 
 def convert_csv_to_data_objects(input_file_path: str, data_class: Type[T]) -> List[T]:

@@ -80,6 +80,11 @@ Pokud je databáze správně vytvořena a konfigurace platná, aplikace se úsp�
 
 ---
 
+Import dat do databáze z CSV souborů spusť příkazem:
+```bash
+python Import.py
+```
+
 ## Řešení problémů
 
 - Aplikace se nespustí  
